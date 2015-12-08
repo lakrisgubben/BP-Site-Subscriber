@@ -171,6 +171,10 @@ class BP_Site_Subscriber extends BP_Component {
 	 * @return void
 	 */
 	public function mark_notification_as_read( $post ) {
+		if ( ! is_single( $post ) ) :
+			return;
+		endif;
+
 		if( is_object( $post ) ) {
 			$post_id = $post->ID;
 		} elseif( is_array( $post ) ) {
