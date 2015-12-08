@@ -153,9 +153,9 @@ class BP_Site_Subscriber extends BP_Component {
 					);
 
 					$message = sprintf(
-						__( "New post <a href='%s'>%s</a> on the site %s \n\n--------------------\n\n <a href='%s'>Go to your profile to disable these emails</a>", 'bp-site-subscriber' ),
-						$link,
+						__( "New post %s (%s) on the site %s \n\n--------------------\n\n Go to your profile to disable these emails: %s", 'bp-site-subscriber' ),
 						$title,
+						$link,
 						$site_name,
 						$profile_link
 					);
