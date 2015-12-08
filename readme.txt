@@ -4,6 +4,7 @@ Tags: BuddyPress, Multisite
 Stable tag: 0.1
 Requires at least: 4.3
 Tested up to: 4.4
+License: GPLv2 or later
 
 == Description ==
 
