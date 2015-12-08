@@ -51,9 +51,3 @@ function bp_site_subscriber_add_active_component( $components ) {
 
 // Setup active components with bp_active_components filter
 add_filter( 'bp_active_components', 'bp_site_subscriber_add_active_component' );
-
-// Enqueues js
-function bp_site_subscriber_enqueue_scripts() {
-	wp_enqueue_script( 'bp-site-subscriber', WP_PLUGIN_URL . '/' . basename( __DIR__ ) . '/js/bp-site-subscriber.js', array( 'jquery' ), '0.1', true );
-}
-add_action( 'wp_enqueue_scripts', 'bp_site_subscriber_enqueue_scripts' );

@@ -24,6 +24,10 @@ class BP_Site_Subscriber_Widget extends WP_Widget {
 	 * @param array $instance Saved values from database.
 	 */
 	public function widget( $args, $instance ) {
+
+		// Only enqueue JS if widget is used
+		wp_enqueue_script( 'bp-site-subscriber', WP_PLUGIN_URL . '/' . plugin_basename( BP_SITE_SUBSCRIBER_PLUGIN_DIR ) . '/js/bp-site-subscriber.js', array( 'jquery' ), '0.1', true );
+
 		extract( $args );
 
 		if ( isset( $instance['title'] ) ) :
