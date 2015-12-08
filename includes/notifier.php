@@ -132,9 +132,6 @@ class BP_Site_Subscriber extends BP_Component {
 		$subscribers = array_values( $subscribers );
 		$subscribers = array_unique( $subscribers );
 
-		// Used for checking duplicates
-		$sent = array();
-
 		$link = get_permalink( $post_id );
 		$title = get_the_title( $post_id );
 		$site_name = get_option( 'blogname' );
@@ -142,9 +139,7 @@ class BP_Site_Subscriber extends BP_Component {
 		foreach ( $subscribers as $subscriber ) {
 
 			if ( $subscriber != $post->post_author && ! in_array( $subscriber, $sent ) ) {
-				// Add for duplicate check
-				$sent[] = $subscriber;
-				// Send
+				// Notify
 				bp_core_add_notification( $post_id, $subscriber, $this->id, 'new_post_' . $post_id, get_current_blog_id() );
 				// Mail
 				if ( 'no' != bp_get_user_meta( $subscriber, 'bp-site-subscriber-send-email', true ) ) {
@@ -255,7 +250,6 @@ class BP_Site_Subscriber extends BP_Component {
 	 */
 	public function change_subscription() {
 		check_ajax_referer( 'bp_site_subscriber_subscribe_nonce', 'bp_site_subscriber_subscribe' );
-		$site_id = get_current_blog_id();
 		$user_id = get_current_user_id();
 		$site_subscribers = get_option( 'bp_site_subscriber_subscribers', array() );
 		if ( ! in_array( $user_id, $site_subscribers ) ) {
@@ -290,11 +284,15 @@ function bp_site_subscriber_notification_format( $action, $item_id, $secondary_i
 		$title = get_the_title( $item_id );
 		$site_name = get_option( 'blogname' );
 	} else {
-		switch_to_blog( $secondary_item_id );
-			$link = get_permalink( $item_id );
-			$title = get_the_title( $item_id );
-			$site_name = get_option( 'blogname' );
-		restore_current_blog();
+		// This condition shouldn't be able to happen if multisite isn't active,
+		// sinice $secondary_item_id should always be 1, but better double check than fatal error. :)
+		if ( is_multisite() ) {
+			switch_to_blog( $secondary_item_id );
+				$link = get_permalink( $item_id );
+				$title = get_the_title( $item_id );
+				$site_name = get_option( 'blogname' );
+			restore_current_blog();
+		}
 	}
 
 	$text = sprintf(
