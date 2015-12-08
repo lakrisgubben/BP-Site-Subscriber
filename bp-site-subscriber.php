@@ -24,20 +24,18 @@ define( 'BP_SITE_SUBSCRIBER_TEMPLATE_DIR', dirname( __FILE__ ) . '/templates' );
  * @return void
  */
 function bp_site_subscriber_init() {
-	if( version_compare( BP_VERSION, '2.0', '>' ) ) {
+	if( version_compare( BP_VERSION, '2.3', '>' ) ) {
 		// Buddypress component that handles the notifications
 		require_once( dirname( __FILE__ ) . '/includes/notifier.php' );
 		BP_Site_Subscriber::__setup();
+
+		//Adds a widget with the subscribe to site button
+		require_once( dirname( __FILE__ ) . '/includes/widget.php' );
 	}
 }
 
 // Setup component with bp_setup_components action
 add_action( 'bp_setup_components', 'bp_site_subscriber_init' );
-
-/**
- * Adds a widget with the subscribe to site button
- */
-require_once( dirname( __FILE__ ) . '/includes/widget.php' );
 
 /**
  * Adds site subscriber component to the active components list.
